@@ -1,0 +1,30 @@
+{
+    "files.associations": {
+        "*.bin": "arm",
+        "*.lds": "c",
+        "usb_device.h": "c",
+        "usbd_cdc_if.h": "c",
+        "i2c_ee_dma.h": "c",
+        "timer.h": "c",
+        "timer.h\u0000imer.h": "c",
+        "timer.h\u0000timer.h": "c",
+        "main.h": "c",
+        "stm32f1xx_hal.h": "c",
+        "cmsis_os.h": "c",
+        "stm32f1xx_hal_conf.h": "c",
+        "config.h": "c",
+        "lcdjob.h": "c",
+        "memory.h": "c",
+        "keyjob.h": "c",
+        "superjob.h": "c",
+        "memory.h\u0000emory.h": "c",
+        "memory.h\u0000mory.h": "c",
+        "config.h\u0000nfig.h": "c",
+        "config.h\u0000onfig.h": "c",
+        "uartjob.h": "c",
+        "uart.h": "c",
+        "uart.h\u0000uart.h": "c",
+        "board_init.h": "c",
+        "printf_reloc.h": "c"
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${vcpkgRoot}/x64-windows/include",
+                "${vcpkgRoot}/x86-windows/include",
+                "./FATFS/Target",
+                "./FATFS/App",
+                "./Core/Inc",
+                "./USB_DEVICE/App",
+                "./USB_DEVICE/Target",
+                "./Drivers/STM32F1xx_HAL_Driver/Inc",
+                "./Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
+                "./Middlewares/Third_Party/FatFs/src",
+                "./Middlewares/Third_Party/FreeRTOS/Source/include",
+                "./Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
+                "./Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3",
+                "./Middlewares/ST/STM32_USB_Device_Library/Core/Inc",
+                "./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc",
+                "./Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "./Drivers/CMSIS/Include",
+                "F:\\Keil_v5\\ARM\\ARMCC\\include",
+                "./Drivers/CMSIS/Include",
+                "./Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "./Middlewares/Third_Party/FreeRTOS/Source/"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "USE_HAL_DRIVER",
+                "STM32F103xE",
+                "__CC_ARM",
+                "unused",
+                "CODE_LEGENCY_INIT"
+            ],
+            "compilerPath": "F:\\Keil_v5\\ARM\\ARMCC\\bin",
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}
