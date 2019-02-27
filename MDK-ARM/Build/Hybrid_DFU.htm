@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Build\Hybrid_DFU.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Build\Hybrid_DFU.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Feb 26 16:44:56 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Feb 27 20:53:36 2019
 <BR><P>
 <H3>Maximum Stack Usage =        232 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -143,8 +143,8 @@ Global Symbols
 
 <P><STRONG><a name="[138]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$0000000F))
 
-<P><STRONG><a name="[10e]"></a>__asm___5_iap_c_eb3ee8a0__the_hybrid_app_entry</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, iap.o(.emb_text))
-<BR><BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
+<P><STRONG><a name="[10f]"></a>__asm___5_iap_c_eb3ee8a0__the_hybrid_app_entry</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, iap.o(.emb_text))
+<BR><BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 </UL>
 
 <P><STRONG><a name="[1b]"></a>SVC_Handler</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, port.o(.emb_text))
@@ -424,11 +424,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_msg_packed
 </UL>
 
-<P><STRONG><a name="[110]"></a>CPUHeartBeatInit</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, delay_cpu_clk.o(i.CPUHeartBeatInit))
+<P><STRONG><a name="[111]"></a>CPUHeartBeatInit</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, delay_cpu_clk.o(i.CPUHeartBeatInit))
 <BR><BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[10f]"></a>ConfigTraceSWO</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, printf_reloc.o(i.ConfigTraceSWO))
+<P><STRONG><a name="[110]"></a>ConfigTraceSWO</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, printf_reloc.o(i.ConfigTraceSWO))
 <BR><BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -453,8 +453,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xe.o(RESET)
 </UL>
-<P><STRONG><a name="[10c]"></a>Delay_Clk</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, delay_cpu_clk.o(i.Delay_Clk))
-<BR><BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
+<P><STRONG><a name="[10d]"></a>Delay_Clk</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, delay_cpu_clk.o(i.Delay_Clk))
+<BR><BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 </UL>
 
 <P><STRONG><a name="[78]"></a>FLASH_PageErase</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, stm32f1xx_hal_flash_ex.o(i.FLASH_PageErase))
@@ -785,7 +785,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
+<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 </UL>
 
 <P><STRONG><a name="[82]"></a>HAL_RCC_GetClockConfig</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, stm32f1xx_hal_rcc.o(i.HAL_RCC_GetClockConfig))
@@ -1489,7 +1489,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_RegisterClass
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_Init
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASHEx_Erase
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iap_process
 </UL>
 
@@ -1510,7 +1510,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printf8.o(i.__0printf$8)
 </UL>
-<P><STRONG><a name="[105]"></a>iap_process</STRONG> (Thumb, 586 bytes, Stack size 8 bytes, iap.o(i.iap_process))
+<P><STRONG><a name="[105]"></a>iap_process</STRONG> (Thumb, 604 bytes, Stack size 8 bytes, iap.o(i.iap_process))
 <BR><BR>[Stack]<UL><LI>Max Depth = 164<LI>Call Chain = iap_process &rArr; tx_msg_packed &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePMA
 </UL>
 <BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Unlock
@@ -1519,20 +1519,21 @@ Global Symbols
 <LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_msg_packed
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;received_msg_process
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;verify_image_info
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
+<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_usb_task
 </UL>
 
-<P><STRONG><a name="[10b]"></a>jump_to_user_application_if</STRONG> (Thumb, 112 bytes, Stack size 8 bytes, iap.o(i.jump_to_user_application_if))
+<P><STRONG><a name="[10c]"></a>jump_to_user_application_if</STRONG> (Thumb, 112 bytes, Stack size 8 bytes, iap.o(i.jump_to_user_application_if))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = jump_to_user_application_if &rArr; HAL_RCC_DeInit &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_DeInit
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_Clk
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__asm___5_iap_c_eb3ee8a0__the_hybrid_app_entry
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_Clk
+<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__asm___5_iap_c_eb3ee8a0__the_hybrid_app_entry
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;verify_image_info
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;close_allof_interrupt
+<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;close_allof_interrupt
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iap_process
@@ -1542,12 +1543,12 @@ Global Symbols
 <P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 68 bytes, Stack size 32 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_ClockConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
-<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelStart
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
+<BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelStart
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfigTraceSWO
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUHeartBeatInit
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfigTraceSWO
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUHeartBeatInit
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_UART4_Init
@@ -1557,15 +1558,16 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
-<P><STRONG><a name="[113]"></a>osDelay</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, cmsis_os.o(i.osDelay))
+<P><STRONG><a name="[10b]"></a>osDelay</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, cmsis_os.o(i.osDelay))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 </UL>
-<BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_usb_task
+<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iap_process
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_usb_task
 </UL>
 
-<P><STRONG><a name="[112]"></a>osKernelStart</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, cmsis_os.o(i.osKernelStart))
+<P><STRONG><a name="[113]"></a>osKernelStart</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, cmsis_os.o(i.osKernelStart))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = osKernelStart &rArr; vTaskStartScheduler &rArr; xTaskCreateStatic &rArr; prvInitialiseNewTask
 </UL>
 <BR>[Calls]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskStartScheduler
@@ -1573,7 +1575,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[111]"></a>osThreadCreate</STRONG> (Thumb, 94 bytes, Stack size 32 bytes, cmsis_os.o(i.osThreadCreate))
+<P><STRONG><a name="[112]"></a>osThreadCreate</STRONG> (Thumb, 94 bytes, Stack size 32 bytes, cmsis_os.o(i.osThreadCreate))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = osThreadCreate &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;makeFreeRtosPriority
@@ -1605,7 +1607,7 @@ Global Symbols
 <P><STRONG><a name="[61]"></a>start_usb_task</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, main.o(i.start_usb_task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 164<LI>Call Chain = start_usb_task &rArr; iap_process &rArr; tx_msg_packed &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePMA
 </UL>
-<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iap_process
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USB_DEVICE_Init
 </UL>
@@ -1685,7 +1687,7 @@ Global Symbols
 <LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspendAll
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddCurrentTaskToDelayedList
 </UL>
-<BR>[Called By]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 </UL>
 
 <P><STRONG><a name="[115]"></a>vTaskStartScheduler</STRONG> (Thumb, 146 bytes, Stack size 32 bytes, tasks.o(i.vTaskStartScheduler))
@@ -1695,7 +1697,7 @@ Global Symbols
 <LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortStartScheduler
 <LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCreateStatic
 </UL>
-<BR>[Called By]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelStart
+<BR>[Called By]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelStart
 </UL>
 
 <P><STRONG><a name="[122]"></a>vTaskSuspendAll</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, tasks.o(i.vTaskSuspendAll))
@@ -1734,7 +1736,7 @@ Global Symbols
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvInitialiseNewTask
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
 </UL>
-<BR>[Called By]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
+<BR>[Called By]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
 </UL>
 
 <P><STRONG><a name="[117]"></a>xTaskCreateStatic</STRONG> (Thumb, 144 bytes, Stack size 56 bytes, tasks.o(i.xTaskCreateStatic))
@@ -1743,7 +1745,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvInitialiseNewTask
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
 </UL>
-<BR>[Called By]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
+<BR>[Called By]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
 <LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskStartScheduler
 </UL>
 
@@ -1812,8 +1814,8 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[10d]"></a>close_allof_interrupt</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, iap.o(i.close_allof_interrupt))
-<BR><BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
+<P><STRONG><a name="[10e]"></a>close_allof_interrupt</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, iap.o(i.close_allof_interrupt))
+<BR><BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 </UL>
 
 <P><STRONG><a name="[10a]"></a>verify_image_info</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, iap.o(i.verify_image_info))
@@ -1821,7 +1823,7 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;verify_image_tag
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
+<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iap_process
 </UL>
 
@@ -1979,7 +1981,7 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[116]"></a>makeFreeRtosPriority</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, cmsis_os.o(i.makeFreeRtosPriority))
-<BR><BR>[Called By]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
+<BR><BR>[Called By]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
 </UL>
 
 <P><STRONG><a name="[12b]"></a>prvHeapInit</STRONG> (Thumb, 98 bytes, Stack size 12 bytes, heap_4.o(i.prvHeapInit))

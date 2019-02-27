@@ -94,14 +94,17 @@ void iap_process(void)
                     }
                     else {
                         debug("4\r\n");
+                        __asm("BKPT 127");
                     }
                 }
                 else {
                     debug("5\r\n");
+                    __asm("BKPT 127");
                 }
             }
             else {
                 debug("6\r\n");
+                __asm("BKPT 127");
             }
             break;
         case SEND_FLASHUPDATE_DATA:
@@ -114,6 +117,7 @@ void iap_process(void)
                     } 
                     else {
                         debug("ERROR: write to flash, address is %#08x error!\r\n", msg_rx_usb.address);
+                        __asm("BKPT 127");
                     }
                     received_msg_process();
                 }
@@ -154,7 +158,7 @@ void iap_process(void)
         case WAIT_FLASH_VERIFY_RESULT:
             if (verify_image_info(APPLICATION_IMAGE_TAG_ADDRESS) == 0) {
                 if (tx_msg_packed(DFU_APPLICATION, ReceivedFlashImageVerifyNoProblem) == USBD_OK) {
-                    debug("WAIT_FLASH_VERIFY_RESULT\r\n");
+                    debug("Received Flash Image Verify No Problem\r\n");
                     flash_update_status = SEND_RESTART_COMMAND;
                     break;
                 }
@@ -183,6 +187,8 @@ void iap_process(void)
             debug("ARM_RESTART_NOW\r\n");
             break;
         case DONE:
+            /* waiting send the last response to host */
+            osDelay(100);
             debug("JUMP_TO_USER_APPLICATION\r\n");
             jump_to_user_application_if();
 			debug("what\r\n");
