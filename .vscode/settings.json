@@ -25,6 +25,7 @@
         "uart.h": "c",
         "uart.h\u0000uart.h": "c",
         "board_init.h": "c",
-        "printf_reloc.h": "c"
+        "printf_reloc.h": "c",
+        "delay_cpu_clk.h": "c"
     }
 }

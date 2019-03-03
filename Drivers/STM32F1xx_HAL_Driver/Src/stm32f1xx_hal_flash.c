@@ -99,7 +99,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
-
+#include "printf_reloc.h"
 /** @addtogroup STM32F1xx_HAL_Driver
   * @{
   */
@@ -261,7 +261,9 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint
 
   /* Process Unlocked */
   __HAL_UNLOCK(&pFlash);
-
+  //if (status)
+  //debug("program status if: %d\r\n", status);
+  
   return status;
 }
 

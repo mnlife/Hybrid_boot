@@ -95,8 +95,7 @@ struct boot_headers {
 struct usb_msg {
     uint8_t msg_class;
     uint8_t msg_id;
-    uint8_t msg_len;
-    uint8_t reserved;
+    uint16_t msg_len;
     uint32_t address;
     uint8_t data[52];
 };

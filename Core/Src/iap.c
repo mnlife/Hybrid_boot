@@ -218,7 +218,7 @@ static void close_allof_interrupt(void)
     NVIC->ICER[2] = 0xFFFFFFFF;
 }
 
-static __asm void the_hybrid_app_entry(const uint32_t zero, const uint32_t app_entry, const uint32_t msp_r)
+static __asm void the_entry(const uint32_t zero, const uint32_t app_entry, const uint32_t msp_r)
 {
 	PRESERVE8
     /* set sp = msp */
@@ -290,7 +290,7 @@ void jump_to_user_application_if(void)
         close_allof_interrupt();
 		
         /* jump to application reset handler */
-        the_hybrid_app_entry(0, APPLICATION_RESET_ADDRESS, APPLICATION_STACK_VALUE);
+        the_entry(0, APPLICATION_RESET_ADDRESS, APPLICATION_STACK_VALUE);
     }
 	else {
         goto err;
