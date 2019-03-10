@@ -71,7 +71,7 @@ void iap_process(void)
 {
     switch (flash_update_status){
         case IDLE:
-			tx_msg_packed(COMMAND_CLASS, 0x21);
+			tx_msg_packed(DFU_APPLICATION, 0x21);
             if (received_usb_msg) {
                 if ((msg_rx_usb.msg_class == DFU_APPLICATION) && (msg_rx_usb.msg_id == SendFlashUpdateCommand)) {
                     flash_update_status = ARM_RECEIVED_FU_COMMEND_ERASE_ALL_OK;
