@@ -46,6 +46,17 @@ enum flash_update_command {
     ReceivedFlashImageVerifyNoProblem = 0x08,
     ReceivedFlashImageVerifyError = 0x09,
     ReceivedRestartNOW = 0x0C,
+
+
+    /*tms320f280049*/
+    TMS320F280049_APPLiCATION_FU = 0x14,
+    TMS320F280049_ALL_FLASH_FU = 0x15,
+
+    FlashVerifyError = 0xFA,
+    FlashUnlockError = 0xFB,
+    CRC_Error = 0xFC,
+    FlashEraseError = 0xFD,
+    FlashProgramError = 0xFE,
 };
 #define RECEIVED_USB_MSG_JUST_NOW   1
 #define USB_MSG_NOT_YET_RECEIVED    0
@@ -89,8 +100,35 @@ struct boot_headers {
     uint32_t rsvd1;
     uint32_t image_verify[4];
 };
+#pragma pack (1)
+struct flash_update_info_t {
+    struct usb_msg *usb_rx_msg;
+    struct usb_msg *usb_tx_msg;
+    struct boot_headers *image_info;
+    
+    uint32_t current_iap_target;
+    /*arm*/
+    uint32_t fu_status;
+    uint32_t fu_addr_base;
+    uint32_t fu_current_address;
+    uint32_t fu_next_address;
+    uint32_t is_received_usb_msg;
+    uint32_t host_resend_num;
+    uint32_t image_verify_err_num;
+    uint32_t current_received_program_addr_from_mcu;
 
-
+    uint32_t err_id;
+    uint32_t err_code;
+};
+enum ERROR_CODE {
+    NO_PROBLEM = 0,
+    RECEIVED_FU_ADDRESS_OVERRANGE,
+    RECEIVED_FU_ADDRESS_MISMATCH,
+    FLASH_PROGRAM_FAILED,
+    FLASH_ERASE_FAILED,
+    FLASH_UNLOCK_FAILED,
+    HOST_WAITING_TIMEOUT_RESEND,
+};
 #pragma pack(1)
 struct usb_msg {
     uint8_t msg_class;

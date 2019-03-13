@@ -152,27 +152,63 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>265</LineNumber>
+          <LineNumber>264</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134220822</Address>
+          <Address>134239830</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c</Filename>
+          <Filename>..\Core\Src\iap.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Hybrid_DFU\../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c\265</Expression>
+          <Expression>\\Hybrid_DFU\../Core/Src/iap.c\264</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>166</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134218228</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>startup_stm32f103xe.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Hybrid_DFU\startup_stm32f103xe.s\166</Expression>
         </Bp>
       </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>msg_tx_usb</ItemText>
+        </Ww>
+      </WatchWindow1>
       <WatchWindow2>
         <Ww>
           <count>0</count>
           <WinNumber>2</WinNumber>
           <ItemText>status</ItemText>
         </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>fu_info.fu_addr_base</ItemText>
+        </Ww>
       </WatchWindow2>
+      <MemoryWindow1>
+        <Mm>
+          <WinNumber>1</WinNumber>
+          <SubType>2</SubType>
+          <ItemText>0x20000ad8</ItemText>
+          <AccSizeX>0</AccSizeX>
+        </Mm>
+      </MemoryWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
       </Tracepoint>
@@ -197,7 +233,7 @@
         <aPa1>0</aPa1>
         <AscS4>0</AscS4>
         <aSer4>1</aSer4>
-        <StkLoc>0</StkLoc>
+        <StkLoc>1</StkLoc>
         <TrcWin>0</TrcWin>
         <newCpu>0</newCpu>
         <uProt>0</uProt>

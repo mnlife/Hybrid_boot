@@ -23,12 +23,31 @@ FLASH_EraseInitTypeDef earse_application_image =
 };
 uint32_t ErrorSector;
 
+struct flash_update_info_t fu_info = {
+   // .current_iap_target = IAP_NONE,
+    /*arm*/
+    .fu_status = IDLE,
+    .fu_addr_base = 0,
+    .fu_current_address = 0,
+    .fu_next_address = 0,
+    .is_received_usb_msg = USB_MSG_NOT_YET_RECEIVED,
+
+    .usb_rx_msg = &msg_rx_usb,
+    .usb_tx_msg = &msg_tx_usb,
+
+    .host_resend_num = 0,
+    .image_verify_err_num = 0,
+    //.image_info = FIRMWARE_IMAGE_TAG,
+    .err_id = 0,
+    .err_code = 0,
+};
+
 uint8_t tx_msg_packed(uint8_t msg_class, uint8_t msg_id)
 {
     msg_tx_usb.msg_class = msg_class;
     msg_tx_usb.msg_id = msg_id;
     msg_tx_usb.msg_len = 52;
-    return (CDC_Transmit_FS(&msg_tx_usb.msg_class, 2));
+    return (CDC_Transmit_FS(&msg_tx_usb.msg_class, sizeof(struct usb_msg)));
 }
 
 void received_msg_process(void)
@@ -42,13 +61,25 @@ int write_to_flash(void) {
     if ((msg_rx_usb.address < APPLICATION_BASE_ADDRESS) && (msg_rx_usb.address > (FLASH_END_ADDRESS - sizeof(struct usb_msg)))) {
         return 1;
     }
+    if (fu_info.fu_next_address != msg_rx_usb.address) {
+        if (fu_info.fu_next_address == (msg_rx_usb.msg_len + msg_rx_usb.address)) {
+            fu_info.host_resend_num++;
+            return HOST_WAITING_TIMEOUT_RESEND;
+        }
+        else {
+            return RECEIVED_FU_ADDRESS_MISMATCH;
+        }
+    }
+    fu_info.fu_next_address += msg_rx_usb.msg_len;
+    fu_info.fu_current_address = msg_rx_usb.address;
+    
     uint32_t address = msg_rx_usb.address;
     uint32_t *data = (uint32_t *)msg_rx_usb.data;
     int length = msg_rx_usb.msg_len / 4;
     //GPIOB->BSRR = GPIO_PIN_0;
     for (int i = 0; i < length; ++i) {
-        if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, address, (uint64_t)*data) != HAL_OK) {
-            return -1;
+        if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, address, (uint64_t)*data) != NO_PROBLEM) {
+            return FLASH_PROGRAM_FAILED;
         }
 #if 0
         while(__HAL_FLASH_GET_FLAG(FLASH_FLAG_BSY));
@@ -63,12 +94,24 @@ int write_to_flash(void) {
         data++;
     }
     //GPIOB->BRR = GPIO_PIN_0;
-    return HAL_OK;
+    return NO_PROBLEM;
 }
 
+static void err_process(uint32_t err_id, uint32_t err_code) 
+{
+    while(1) {
+        *(uint32_t *)(msg_tx_usb.data) = err_code; 
+        if (tx_msg_packed(DFU_APPLICATION, err_id) == USBD_OK) {
+            __asm("bkpt 1");
+        }
+        osDelay(10);
+    }
+}
 
 void iap_process(void)
 {
+    uint32_t return_status;
+    uint32_t *usb_data_ptr = (uint32_t *)(&msg_tx_usb.address);
     switch (flash_update_status){
         case IDLE:
 			tx_msg_packed(DFU_APPLICATION, 0x21);
@@ -84,10 +127,14 @@ void iap_process(void)
             break;
         case ARM_RECEIVED_FU_COMMEND_ERASE_ALL_OK:
             debug("1\r\n");
-            if (HAL_FLASH_Unlock() == HAL_OK) {
+            return_status = HAL_FLASH_Unlock();
+            if (return_status == HAL_OK) {
                 debug("2\r\n");
-                if (HAL_FLASHEx_Erase(&earse_application_image, &ErrorSector) == HAL_OK) {
+                fu_info.fu_addr_base = earse_application_image.PageAddress;
+                return_status = HAL_FLASHEx_Erase(&earse_application_image, &ErrorSector);
+                if (return_status == HAL_OK) {
                     debug("3\r\n");
+                    fu_info.fu_next_address = earse_application_image.PageAddress;
                     if (tx_msg_packed(DFU_APPLICATION, ReceivedARM_FU_CommandEraseAll_OK) == USBD_OK) {
                         flash_update_status = SEND_FLASHUPDATE_DATA;
                         debug("ARM_RECEIVED_FU_COMMEND_ERASE_ALL_OK\r\n");
@@ -100,26 +147,37 @@ void iap_process(void)
                 else {
                     debug("5\r\n");
                     __asm("BKPT 127");
+                    fu_info.err_id = FlashEraseError;
+                    goto err;
                 }
             }
             else {
                 debug("6\r\n");
                 __asm("BKPT 127");
+                fu_info.err_id = FlashUnlockError;
+                goto err;
             }
             break;
         case SEND_FLASHUPDATE_DATA:
             if (received_usb_msg) {
                 if ((msg_rx_usb.msg_class == DFU_APPLICATION) && (msg_rx_usb.msg_id == SendFlashUpdateData)) {
-                    if (write_to_flash() == HAL_OK) {
+                    return_status = write_to_flash();
+                    if (return_status == HAL_OK) {
                         flash_update_status = ARM_DATA_WRITE_COMPLETE;
                         debug("SEND_FLASHUPDATE_DATA, address is 0x%x\r\n", msg_rx_usb.address);
                         goto transmit_completed;
                     } 
+                    else if (return_status == HOST_WAITING_TIMEOUT_RESEND) {
+                        fu_info.host_resend_num++;
+                        goto transmit_completed;
+                    }
                     else {
+                        fu_info.err_id = FlashProgramError;
                         debug("ERROR: write to flash, address is %#08x error!\r\n", msg_rx_usb.address);
                         __asm("BKPT 127");
+                        goto err;
                     }
-                    received_msg_process();
+                    //received_msg_process();
                 }
                 else if ((msg_rx_usb.msg_class == DFU_APPLICATION) && (msg_rx_usb.msg_id == SendFlashUpdateComplete)) {
                     flash_update_status = FLASHUPDATE_COMPLETE;
@@ -181,10 +239,33 @@ void iap_process(void)
             break;
 
         case ARM_RESTART_NOW:
+			debug("ARM_RESTART_NOW\r\n");
+            
+            *usb_data_ptr = fu_info.current_iap_target;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.fu_status;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.fu_addr_base;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.fu_current_address;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.fu_next_address;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.is_received_usb_msg;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.host_resend_num;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.image_verify_err_num;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.current_received_program_addr_from_mcu;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.err_id;
+            usb_data_ptr++;
+            *usb_data_ptr = fu_info.err_code;
             if (tx_msg_packed(DFU_APPLICATION, ReceivedRestartNOW) == USBD_OK) {
                 flash_update_status = DONE;
             }
-            debug("ARM_RESTART_NOW\r\n");
+            
             break;
         case DONE:
             /* waiting send the last response to host */
@@ -194,7 +275,11 @@ void iap_process(void)
 			debug("what\r\n");
             break; 
     }
+	return;
 
+    err:
+        fu_info.err_code = return_status;
+		err_process(fu_info.err_id, fu_info.err_code);
 }
 
 
