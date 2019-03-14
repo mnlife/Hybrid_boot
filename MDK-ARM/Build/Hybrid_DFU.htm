@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Build\Hybrid_DFU.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Build\Hybrid_DFU.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Mar 13 17:27:49 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Mar 14 14:53:12 2019
 <BR><P>
 <H3>Maximum Stack Usage =        232 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1510,8 +1510,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printf8.o(i.__0printf$8)
 </UL>
-<P><STRONG><a name="[108]"></a>iap_process</STRONG> (Thumb, 760 bytes, Stack size 16 bytes, iap.o(i.iap_process))
-<BR><BR>[Stack]<UL><LI>Max Depth = 172<LI>Call Chain = iap_process &rArr; tx_msg_packed &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePMA
+<P><STRONG><a name="[108]"></a>iap_process</STRONG> (Thumb, 762 bytes, Stack size 16 bytes, iap.o(i.iap_process))
+<BR><BR>[Stack]<UL><LI>Max Depth = 188<LI>Call Chain = iap_process &rArr; err_process &rArr; tx_msg_packed &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePMA
 </UL>
 <BR>[Calls]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Unlock
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASHEx_Erase
@@ -1607,7 +1607,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[61]"></a>start_usb_task</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, main.o(i.start_usb_task))
-<BR><BR>[Stack]<UL><LI>Max Depth = 172<LI>Call Chain = start_usb_task &rArr; iap_process &rArr; tx_msg_packed &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePMA
+<BR><BR>[Stack]<UL><LI>Max Depth = 188<LI>Call Chain = start_usb_task &rArr; iap_process &rArr; err_process &rArr; tx_msg_packed &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePMA
 </UL>
 <BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iap_process
@@ -1821,8 +1821,8 @@ Local Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;jump_to_user_application_if
 </UL>
 
-<P><STRONG><a name="[105]"></a>err_process</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, iap.o(i.err_process))
-<BR><BR>[Stack]<UL><LI>Max Depth = 156<LI>Call Chain = err_process &rArr; tx_msg_packed &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePMA
+<P><STRONG><a name="[105]"></a>err_process</STRONG> (Thumb, 126 bytes, Stack size 16 bytes, iap.o(i.err_process))
+<BR><BR>[Stack]<UL><LI>Max Depth = 172<LI>Call Chain = err_process &rArr; tx_msg_packed &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePMA
 </UL>
 <BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_msg_packed
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay

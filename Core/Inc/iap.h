@@ -144,4 +144,9 @@ void iap_process(void);
 void copy_received_msg(uint8_t *ptr, uint32_t length);
 void jump_to_user_application_if(void);
 uint8_t tx_msg_packed(uint8_t msg_class, uint8_t msg_id);
+#ifdef DEBUG1
+#define PAUSE_MCU_RUNNING	__asm("BKPT 127");
+#else
+#define PAUSE_MCU_RUNNING	;
+#endif
 #endif

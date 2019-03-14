@@ -99,12 +99,35 @@ int write_to_flash(void) {
 
 static void err_process(uint32_t err_id, uint32_t err_code) 
 {
+    uint32_t *usb_data_ptr = (uint32_t *)(&msg_tx_usb.address);
+    *usb_data_ptr = fu_info.current_iap_target;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.fu_status;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.fu_addr_base;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.fu_current_address;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.fu_next_address;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.is_received_usb_msg;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.host_resend_num;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.image_verify_err_num;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.current_received_program_addr_from_mcu;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.err_id;
+    usb_data_ptr++;
+    *usb_data_ptr = fu_info.err_code;
     while(1) {
-        *(uint32_t *)(msg_tx_usb.data) = err_code; 
-        if (tx_msg_packed(DFU_APPLICATION, err_id) == USBD_OK) {
-            __asm("bkpt 1");
+        if (tx_msg_packed(DFU_APPLICATION, ReceivedFlashImageVerifyError) == USBD_OK) {
+            PAUSE_MCU_RUNNING;
+			osDelay(100);
+			flash_update_status = IDLE;
+            break;
         }
-        osDelay(10);
     }
 }
 
@@ -141,19 +164,19 @@ void iap_process(void)
                     }
                     else {
                         debug("4\r\n");
-                        __asm("BKPT 127");
+                        PAUSE_MCU_RUNNING;
                     }
                 }
                 else {
                     debug("5\r\n");
-                    __asm("BKPT 127");
+                    PAUSE_MCU_RUNNING;
                     fu_info.err_id = FlashEraseError;
                     goto err;
                 }
             }
             else {
                 debug("6\r\n");
-                __asm("BKPT 127");
+                PAUSE_MCU_RUNNING;
                 fu_info.err_id = FlashUnlockError;
                 goto err;
             }
@@ -174,7 +197,7 @@ void iap_process(void)
                     else {
                         fu_info.err_id = FlashProgramError;
                         debug("ERROR: write to flash, address is %#08x error!\r\n", msg_rx_usb.address);
-                        __asm("BKPT 127");
+                        PAUSE_MCU_RUNNING;
                         goto err;
                     }
                     //received_msg_process();
@@ -184,6 +207,8 @@ void iap_process(void)
                 }
                 else {
                     debug("7\r\n");
+                    fu_info.err_id = FlashVerifyError;
+                    goto err;
                 }
 
                 received_msg_process();
