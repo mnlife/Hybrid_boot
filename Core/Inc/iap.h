@@ -52,6 +52,7 @@ enum flash_update_command {
     TMS320F280049_APPLiCATION_FU = 0x14,
     TMS320F280049_ALL_FLASH_FU = 0x15,
 
+    Received_MsgID_Mismatch = 0xF9,
     FlashVerifyError = 0xFA,
     FlashUnlockError = 0xFB,
     CRC_Error = 0xFC,
