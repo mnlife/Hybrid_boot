@@ -52,14 +52,14 @@ uint8_t tx_msg_packed(uint8_t msg_class, uint8_t msg_id)
 
 void received_msg_process(void)
 {
-    msg_rx_usb.msg_class = 0;
-    msg_rx_usb.msg_id = 0;
+    //msg_rx_usb.msg_class = 0;
+    //msg_rx_usb.msg_id = 0;
     received_usb_msg = USB_MSG_NOT_YET_RECEIVED;
 }
 
 int write_to_flash(void) {
     if ((msg_rx_usb.address < APPLICATION_BASE_ADDRESS) && (msg_rx_usb.address > (FLASH_END_ADDRESS - sizeof(struct usb_msg)))) {
-        return 1;
+        return RECEIVED_FU_ADDRESS_OVERRANGE;
     }
     if (fu_info.fu_next_address != msg_rx_usb.address) {
         if (fu_info.fu_next_address == (msg_rx_usb.msg_len + msg_rx_usb.address)) {
@@ -81,52 +81,52 @@ int write_to_flash(void) {
         if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, address, (uint64_t)*data) != NO_PROBLEM) {
             return FLASH_PROGRAM_FAILED;
         }
-#if 0
-        while(__HAL_FLASH_GET_FLAG(FLASH_FLAG_BSY));
-        SET_BIT(FLASH->CR, FLASH_CR_PG);
-
-        /* Write data in the address */
-        *(__IO uint16_t*)address = *data;
-        while(__HAL_FLASH_GET_FLAG(FLASH_FLAG_BSY));
-        CLEAR_BIT(FLASH->CR, FLASH_CR_PG);
-#endif
         address += 4;
         data++;
     }
     //GPIOB->BRR = GPIO_PIN_0;
     return NO_PROBLEM;
 }
+void memory_copy_value(uint32_t *src, uint32_t *dest, uint32_t len_u32)
+{
+    while(len_u32--) {
+        *dest-- = *src--;
+    }
+}
+void copy_fu_info_to_usb_tx(void)
+{
+    #define SEND_ERR_MSG_U32_SIZE   11
+    uint32_t *usb_data_ptr = (uint32_t *)(&msg_tx_usb.address);
+    uint32_t err_msg[SEND_ERR_MSG_U32_SIZE] = {
+        fu_info.current_iap_target,
+        fu_info.fu_status,
+        fu_info.fu_addr_base,
+        fu_info.fu_current_address,
+        
+        fu_info.fu_next_address,
+        fu_info.is_received_usb_msg,
+        fu_info.host_resend_num,
+        fu_info.image_verify_err_num,
+
+        fu_info.current_received_program_addr_from_mcu,
+        fu_info.err_id,
+        fu_info.err_code,
+    };
+    memory_copy_value(err_msg, usb_data_ptr, SEND_ERR_MSG_U32_SIZE);
+}
 
 static void err_process(uint32_t err_id, uint32_t err_code) 
 {
-    uint32_t *usb_data_ptr = (uint32_t *)(&msg_tx_usb.address);
-    *usb_data_ptr = fu_info.current_iap_target;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.fu_status;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.fu_addr_base;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.fu_current_address;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.fu_next_address;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.is_received_usb_msg;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.host_resend_num;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.image_verify_err_num;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.current_received_program_addr_from_mcu;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.err_id;
-    usb_data_ptr++;
-    *usb_data_ptr = fu_info.err_code;
+    copy_fu_info_to_usb_tx();
     while(1) {
-        if (tx_msg_packed(DFU_APPLICATION, ReceivedFlashImageVerifyError) == USBD_OK) {
-            PAUSE_MCU_RUNNING;
-			osDelay(100);
-			flash_update_status = IDLE;
-            break;
+        if (tx_msg_packed(DFU_APPLICATION, err_id) == USBD_OK) {
+            osDelay(100);
+            if (tx_msg_packed(DFU_APPLICATION, FatalError_ResendImage) == USBD_OK) {
+                //PAUSE_MCU_RUNNING;
+                osDelay(100);
+                fu_info.fu_status = IDLE;
+                break;
+            }
         }
     }
 }
@@ -134,18 +134,20 @@ static void err_process(uint32_t err_id, uint32_t err_code)
 void iap_process(void)
 {
     uint32_t return_status;
-    uint32_t *usb_data_ptr = (uint32_t *)(&msg_tx_usb.address);
     switch (flash_update_status){
         case IDLE:
 			tx_msg_packed(DFU_APPLICATION, 0x21);
             if (received_usb_msg) {
+                received_msg_process();
                 if ((msg_rx_usb.msg_class == DFU_APPLICATION) && (msg_rx_usb.msg_id == SendFlashUpdateCommand)) {
                     flash_update_status = ARM_RECEIVED_FU_COMMEND_ERASE_ALL_OK;
-                    received_msg_process();
                     debug("SEND_FLASH_UPDATE_COMMAND\r\n");
                 }
-
-                received_msg_process();
+                else {
+                    debug("Error: received message mismatch\r\n");
+                    fu_info.err_id = Received_MsgID_Mismatch;
+                    goto err;
+                }
             }
             break;
         case ARM_RECEIVED_FU_COMMEND_ERASE_ALL_OK:
@@ -183,6 +185,7 @@ void iap_process(void)
             break;
         case SEND_FLASHUPDATE_DATA:
             if (received_usb_msg) {
+                received_msg_process();
                 if ((msg_rx_usb.msg_class == DFU_APPLICATION) && (msg_rx_usb.msg_id == SendFlashUpdateData)) {
                     return_status = write_to_flash();
                     if (return_status == HAL_OK) {
@@ -200,23 +203,19 @@ void iap_process(void)
                         PAUSE_MCU_RUNNING;
                         goto err;
                     }
-                    //received_msg_process();
                 }
                 else if ((msg_rx_usb.msg_class == DFU_APPLICATION) && (msg_rx_usb.msg_id == SendFlashUpdateComplete)) {
                     flash_update_status = FLASHUPDATE_COMPLETE;
                 }
                 else {
                     debug("7\r\n");
-                    fu_info.err_id = FlashVerifyError;
+                    fu_info.err_id = Received_MsgID_Mismatch;
                     goto err;
                 }
-
-                received_msg_process();
             }
             break;
         case ARM_DATA_WRITE_COMPLETE:
             transmit_completed:
-                received_msg_process();
                 debug("ARM_DATA_WRITE_COMPLETE\r\n");
                 if (tx_msg_packed(DFU_APPLICATION, ReceivedARM_DataWriteComplete) == USBD_OK) {
                     flash_update_status = SEND_FLASHUPDATE_DATA;
@@ -230,11 +229,16 @@ void iap_process(void)
             break;
         case SEND_FLASH_IMAGE_VERIFY:
             if (received_usb_msg) {
+                received_msg_process();
                 if ((msg_rx_usb.msg_class == DFU_APPLICATION) && (msg_rx_usb.msg_id == SendFlashImageVerify)) {
                     flash_update_status = WAIT_FLASH_VERIFY_RESULT;
                     debug("SEND_FLASH_IMAGE_VERIFY\r\n");
                 }
-                received_msg_process();
+                else {
+                    debug("Error: received message mismatch\r\n");
+                    fu_info.err_id = Received_MsgID_Mismatch;
+                    goto err;
+                }
             }
             break;
 
@@ -247,50 +251,33 @@ void iap_process(void)
                 }
             }
             else {
-                if (tx_msg_packed(DFU_APPLICATION, ReceivedFlashImageVerifyError) == USBD_OK) {
-                    debug("Received Flash Image Verify Error\r\n");
-                    flash_update_status = IDLE;
-                }
+                debug("Received Flash Image Verify Error\r\n");
+                fu_info.image_verify_err_num++;
+                fu_info.err_id = FlashVerifyError;
+                flash_update_status = IDLE;
+                goto err;
             }
             break;
         case SEND_RESTART_COMMAND:
             if (received_usb_msg) {
+                received_msg_process();
                 if ((msg_rx_usb.msg_class == DFU_APPLICATION) && (msg_rx_usb.msg_id == SendRestartCommand)) {
                     flash_update_status = ARM_RESTART_NOW;
                     debug("SEND_RESTART_COMMAND\r\n");
                 }
-                received_msg_process();
+                else {
+                    fu_info.err_id = Received_MsgID_Mismatch;
+                    goto err;
+                }
             }
             break;
 
         case ARM_RESTART_NOW:
 			debug("ARM_RESTART_NOW\r\n");
-            
-            *usb_data_ptr = fu_info.current_iap_target;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.fu_status;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.fu_addr_base;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.fu_current_address;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.fu_next_address;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.is_received_usb_msg;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.host_resend_num;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.image_verify_err_num;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.current_received_program_addr_from_mcu;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.err_id;
-            usb_data_ptr++;
-            *usb_data_ptr = fu_info.err_code;
+            copy_fu_info_to_usb_tx();
             if (tx_msg_packed(DFU_APPLICATION, ReceivedRestartNOW) == USBD_OK) {
                 flash_update_status = DONE;
             }
-            
             break;
         case DONE:
             /* waiting send the last response to host */

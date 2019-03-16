@@ -44,7 +44,7 @@ enum flash_update_command {
     ReceivedARM_DataWriteComplete = 0x04,
     ReceivedFlashupdateCompleteState = 0x06,
     ReceivedFlashImageVerifyNoProblem = 0x08,
-    ReceivedFlashImageVerifyError = 0x09,
+    FatalError_ResendImage = 0x09,
     ReceivedRestartNOW = 0x0C,
 
 
