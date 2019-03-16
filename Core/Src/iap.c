@@ -124,7 +124,7 @@ static void err_process(uint32_t err_id, uint32_t err_code)
             if (tx_msg_packed(DFU_APPLICATION, FatalError_ResendImage) == USBD_OK) {
                 //PAUSE_MCU_RUNNING;
                 osDelay(100);
-                fu_info.fu_status = IDLE;
+                
                 break;
             }
         }
@@ -291,6 +291,7 @@ void iap_process(void)
 
     err:
         fu_info.err_code = return_status;
+        fu_info.fu_status = IDLE;
 		err_process(fu_info.err_id, fu_info.err_code);
 }
 
