@@ -154,7 +154,7 @@
           <Type>0</Type>
           <LineNumber>264</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134239852</Address>
+          <Address>134239892</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -180,22 +180,6 @@
           <Filename>startup_stm32f103xe.s</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\Hybrid_DFU\startup_stm32f103xe.s\166</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>376</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134240486</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Core\Src\iap.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Hybrid_DFU\../Core/Src/iap.c\376</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

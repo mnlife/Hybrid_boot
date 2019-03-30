@@ -146,7 +146,7 @@ void iap_process(void)
                 else {
                     debug("Error: received message mismatch\r\n");
                     fu_info.err_id = Received_MsgID_Mismatch;
-                    goto err;
+                    //goto err;
                 }
             }
             break;
@@ -254,7 +254,7 @@ void iap_process(void)
                 debug("Received Flash Image Verify Error\r\n");
                 fu_info.image_verify_err_num++;
                 fu_info.err_id = FlashVerifyError;
-                flash_update_status = IDLE;
+                
                 goto err;
             }
             break;
@@ -292,6 +292,7 @@ void iap_process(void)
     err:
         fu_info.err_code = return_status;
         fu_info.fu_status = IDLE;
+        flash_update_status = IDLE;
 		err_process(fu_info.err_id, fu_info.err_code);
 }
 

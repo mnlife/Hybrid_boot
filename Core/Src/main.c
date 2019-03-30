@@ -440,6 +440,10 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+	__HAL_RCC_AFIO_CLK_ENABLE();
+    AFIO->MAPR = 0x01000008UL;
+    /* enable 5V dcdc 54331 */
+    GPIOA->BSRR = GPIO_PIN_0;
 }
 
 /* USER CODE BEGIN 4 */
@@ -471,7 +475,10 @@ void start_usb_task(void const * argument)
     }
     /* USER CODE END 5 */ 
 }
-
+void vApplicationIdleHook( void )
+{
+    IWDG->KR = 0x0000AAAA;
+}
 /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM1 interrupt took place, inside
@@ -482,15 +489,15 @@ void start_usb_task(void const * argument)
   */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  /* USER CODE BEGIN Callback 0 */
+    /* USER CODE BEGIN Callback 0 */
 
-  /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM1) {
-    HAL_IncTick();
-  }
-  /* USER CODE BEGIN Callback 1 */
+    /* USER CODE END Callback 0 */
+    if (htim->Instance == TIM1) {
+        HAL_IncTick();
+    }
+    /* USER CODE BEGIN Callback 1 */
 
-  /* USER CODE END Callback 1 */
+    /* USER CODE END Callback 1 */
 }
 
 /**
