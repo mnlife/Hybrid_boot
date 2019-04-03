@@ -460,8 +460,8 @@ static void MX_GPIO_Init(void)
 void start_usb_task(void const * argument)
 {
     /* init code for USB_DEVICE */
-    MX_USB_DEVICE_Init();
     USB_PULLUP_ENABLE();
+    MX_USB_DEVICE_Init();
     /* USER CODE BEGIN 5 */
     /* Infinite loop */
     for(;;)
