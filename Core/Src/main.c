@@ -477,7 +477,7 @@ void start_usb_task(void const * argument)
 }
 void vApplicationIdleHook( void )
 {
-    IWDG->KR = 0x0000AAAA;
+    //IWDG->KR = 0x0000AAAA;
 }
 /**
   * @brief  Period elapsed callback in non blocking mode
