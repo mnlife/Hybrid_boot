@@ -24,7 +24,7 @@ FLASH_EraseInitTypeDef earse_application_image =
 uint32_t ErrorSector;
 
 struct flash_update_info_t fu_info = {
-   // .current_iap_target = IAP_NONE,
+    .current_iap_target = 1,
     /*arm*/
     .fu_status = IDLE,
     .fu_addr_base = 0,
@@ -90,7 +90,7 @@ int write_to_flash(void) {
 void memory_copy_value(uint32_t *src, uint32_t *dest, uint32_t len_u32)
 {
     while(len_u32--) {
-        *dest-- = *src--;
+        *dest++ = *src++;
     }
 }
 void copy_fu_info_to_usb_tx(void)
@@ -134,6 +134,7 @@ static void err_process(uint32_t err_id, uint32_t err_code)
 void iap_process(void)
 {
     uint32_t return_status;
+    fu_info.fu_status = flash_update_status;
     switch (flash_update_status){
         case IDLE:
 			tx_msg_packed(DFU_APPLICATION, 0x21);
