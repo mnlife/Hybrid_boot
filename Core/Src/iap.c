@@ -396,7 +396,7 @@ void jump_to_user_application_if(void)
         goto err;
     }
     err:
-        __disable_irq();
+        //__disable_irq();
         GPIOB->BSRR = GPIO_PIN_0;
-        while(1);
+        //while(1);
 }
